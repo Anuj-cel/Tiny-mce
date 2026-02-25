@@ -1,0 +1,31 @@
+@tinymce/tinymce-react = 
+This is the official React wrapper for
+TinyMCE
+TinyMCE itself is plain JavaScript.
+React needs a bridge to use it properly.
+<Editor />
+
+tinymce=
+This is the actual editor engine.
+The toolbar, formatting, HTML generation — everything.
+Without this, the React wrapper has nothing to render.
+Think of it like:
+@tinymce/tinymce-react → steering wheel
+tinymce → engine
+
+prismjs
+What is it?
+Prism
+A JavaScript library that adds color coding to code blocks.
+TinyMCE does NOT color code syntax.
+
+<pre><code class="language-javascript">
+console.log("Hello");
+</code></pre>
+
+Prism:
+Reads the language class
+Parses the code
+Wraps keywords in spans
+Applies CSS colors
+

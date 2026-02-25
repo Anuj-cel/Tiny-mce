@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #111827;
+  color: #e5e7eb;
+}
+
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+.app h1 {
+  margin-bottom: 1.5rem;
+  font-size: 2.25rem;
+  letter-spacing: 0.03em;
+  color: #f9fafb;
+}
+
+.editor-actions {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.editor-actions button {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid #4b5563;
+  background: #111827;
+  color: #e5e7eb;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+}
+
+.editor-actions button:hover {
+  background: #1f2937;
+  border-color: #6b7280;
+  transform: translateY(-1px);
+}
+
+.preview {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #020617;
+  border-radius: 10px;
+  border: 1px solid #1f2937;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  overflow-x: auto;
+}
+
+.preview h1,
+.preview h2,
+.preview h3,
+.preview h4 {
+  color: #e5e7eb;
+}
+
+.preview p {
+  color: #9ca3af;
+}
