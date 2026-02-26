@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Editor } from '@tinymce/tinymce-react'
+// import { Editor } from '@tinymce/tinymce-react'
 import Prism from 'prismjs'
-import 'prismjs/themes/prism-okaidia.css'
+import 'prismjs/themes/prism.css'
+import DOMPurify from 'dompurify'
 import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-css'
 import 'prismjs/components/prism-markup'
-import './App.css'
+import TinyMceEditor from './components/CodeEditor.jsx'
 
 function App() {
   const [content, setContent] = useState('')
@@ -25,11 +26,14 @@ function App() {
   }
 
   useEffect(() => {
-    Prism.highlightAll()
+    const preview = document.querySelector('.preview')
+    if (preview) {
+      Prism.highlightAllUnder(preview)
+    }
   }, [content])
 
   return (
-    <div className="app">
+    <div className="flex flex-col gap-4 p-4 ">
       <h1>TinyMCE + Prism (React)</h1>
 
       <div className="editor-actions">
@@ -37,34 +41,18 @@ function App() {
         <button onClick={handleLoad}>Load from backend</button>
       </div>
 
-      <Editor
-apiKey='1w86m9qndfgzsthxq78glz5aukdha3vsasg1sbhx2qdx7v03'
-value={content}
-        init={{
-          height: 400,
-          menubar: false,
-          plugins: 'codesample',
-          toolbar:
-            'undo redo | bold italic | codesample | alignleft aligncenter alignright | bullist numlist',
-          codesample_languages: [
-            { text: 'HTML', value: 'markup' },
-            { text: 'CSS', value: 'css' },
-            { text: 'JavaScript', value: 'javascript' },
-            { text: 'TypeScript', value: 'typescript' },
-            { text: 'JSON', value: 'json' },
-            { text: 'Python', value: 'python' },
-          ],
-          content_css: [
-            'https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css',
-          ],
-        }}
-        onEditorChange={(newContent) => setContent(newContent)}
+      <TinyMceEditor
+        height={500}
+        value={content}
+        // @ts-ignore
+        onEditorChange={(value) => setContent(value)}
       />
-
       <h2>Preview (Prism-highlighted)</h2>
       <div
         className="preview"
-        dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(content),
+        }}
       />
     </div>
   )
