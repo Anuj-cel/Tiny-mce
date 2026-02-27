@@ -67,6 +67,7 @@ export default function TinyMceEditor({
         menubar: false,
         toolbar:
           "undo redo | formatselect | bold italic underline strikethrough | forecolor backcolor | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | table | codesample | emoticons charmap | removeformat | preview code fullscreen",
+        
         plugins: [
           "advlist",
           "autolink",
@@ -90,6 +91,7 @@ export default function TinyMceEditor({
           "emoticons",
           "autoresize",
         ],
+          block_formats: "Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Preformatted=pre",
         codesample_languages: [
           { text: 'HTML', value: 'markup' },
           { text: 'CSS', value: 'css' },

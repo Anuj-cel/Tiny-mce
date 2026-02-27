@@ -27,8 +27,16 @@ import "prismjs/themes/prism-tomorrow.css"
 import "prismjs/components/prism-javascript"
 import "prismjs/components/prism-css"
 import "prismjs/components/prism-markup"
-// remove unused language to avoid MIME type error during development
-// import "prismjs/components/prism-python"
+import "prismjs/components/prism-markup-templating"
+// import additional languages you expect to display below.  
+// After changing these imports restart the Vite dev server so
+// the updated dependencies are bundled correctly.
+import "prismjs/components/prism-python"      // Python
+import "prismjs/components/prism-java"        // Java
+import "prismjs/components/prism-c"           // C
+import "prismjs/components/prism-cpp"         // C++
+import "prismjs/components/prism-csharp"      // C#
+import "prismjs/components/prism-php"         // PHP
 export default function ArticleView({ article, onBack, onEdit }) {
 
   const contentRef = useRef(null)
