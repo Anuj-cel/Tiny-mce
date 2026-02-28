@@ -35,8 +35,8 @@ export default function ArticleEdit({ article: initial = null, onSaved, onCancel
   }
 
   return (
-    <div className="space-y-6 max-w-3xl mx-auto">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8 max-w-3xl mx-auto">
+      <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-semibold">
           {initial?.id ? 'Edit Article' : 'New Article'}
         </h2>
@@ -57,12 +57,12 @@ export default function ArticleEdit({ article: initial = null, onSaved, onCancel
         </div>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium mb-1">Title</label>
+      <div className="flex flex-col gap-2">
+        <label className="block text-sm font-medium mb-2">Title</label>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full border px-3 py-2 rounded text-lg font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="w-full border px-3 py-2 mt-1 rounded text-lg font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"
           placeholder="Enter article title"
         />
       </div>

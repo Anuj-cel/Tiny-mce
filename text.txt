@@ -1,0 +1,105 @@
+How Data Storage Works
+Backend(MongoDB)
+
+Your articles are stored in MongoDB as documents in the Articles collection.Each document follows the articleSchema:
+
+const articleSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  html: { type: String, default: '' }
+}, { timestamps: true });
+
+So in the database, each article looks like:
+{
+  "_id": "ObjectId('65f1a2b3...')",
+    "title": "My Article Title",
+      "html": "<h1>Hello</h1><p>Content here...</p>",
+        "createdAt": "2026-02-27T10:30:00.000Z",
+          "updatedAt": "2026-02-27T10:35:00.000Z"
+}
+
+Data Format
+
+Storage: Documents are stored in BSON(Binary JSON) format inside MongoDB.
+API Transfer: When you fetch / save, the backend converts BSON to JSON for the REST API.
+Frontend Storage: React keeps articles in component state as JavaScript objects(plain JSON).
+Flow Example
+
+Create: You type a title + content in the editor → POST / api / articles with JSON body → backend creates BSON doc → returns the new _id
+Read: Click "View" → GET / api / articles /: id → backend fetches BSON → converts to JSON → browser displays it
+Update: Edit + save → PUT / api / articles /:id with new JSON → backend updates the BSON doc
+Delete: Backend deletes the BSON doc from MongoDB
+
+How Colour Coding(Syntax Highlighting) Works
+Prism.js Flow
+
+1. Article HTML contains code blocks
+
+When you insert a code sample in the editor, TinyMCE wraps it in <pre><code> tags with a language class:
+
+  <pre><code class="language-python">
+    def hello():
+    print("World")
+  </code></pre>
+
+  2.Prism loads language definitions
+
+  In ArticleView.jsx, you import language components:
+  import "prismjs/components/prism-python"
+  import "prismjs/components/prism-javascript"
+
+  Each import loads a Prism language definition file — a JavaScript object that describes:
+
+  Syntax rules (keywords, strings, comments, operators, etc.)
+  Token type for each pattern (e.g., "keyword", "string", "comment")
+  CSS class names to apply
+  Prism highlights on article view
+
+  3. Prism highlights on article view
+  When the article loads, ArticleView runs:
+useEffect(() => {
+  if (contentRef.current) {
+    Prism.highlightAllUnder(contentRef.current)  
+  }
+}, [article])
+  This function:
+
+  Finds all <code> blocks with a language-* class
+    Parses the code using the matching language definition
+    Wraps each token in a <span> with a CSS class based on token type
+      Before (plain code):
+      <pre><code class="language-python">
+        def hello():
+      </code></pre>
+      After (Prism tokenized):
+      <pre><code class="language-python">
+        <span class="token keyword">def</span>
+        <span class="token function">hello</span>
+        <span class="token punctuation">():</span>
+      </code></pre>
+      4.CSS applies the colours
+
+      You import the theme:
+      import "prismjs/themes/prism-tomorrow.css"
+      This CSS file defines colors for each token type:
+      .token.keyword {color: #c678dd; }      /* keywords = purple */
+      .token.function {color: #61afef; }     /* functions = blue */
+      .token.string {color: #98c379; }       /* strings = green */
+      .token.punctuation {color: #abb2bf; }  /* punctuation = gray */
+
+      → The browser applies these styles → colourful code ✨
+
+      Why PHP fails without markup-templating
+
+      PHP code can contain embedded HTML:
+
+      <?php
+      <div><?php echo "Hello"; ?></div>
+      Prism's PHP definition relies on the markup-templating language to handle the HTML parts. If that language isn't loaded, PHP can't parse correctly → crash.
+
+      Summary
+      Aspect	What Happens
+      Article storage	MongoDB BSON → JSON via REST API → React state
+      Code blocks	Wrapped in <pre><code class="language-X"> by TinyMCE
+        Highlighting	Prism parses code using language definitions → wraps tokens in <span> with CSS classes
+          Colours	CSS theme file (prism-tomorrow.css) applies colour values to token classes
+          Restart needed	When you add a new language import, Vite must pre-bundle it; dev server restart triggers that
